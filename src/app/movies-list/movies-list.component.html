@@ -1,0 +1,33 @@
+<div *ngFor="let movie of this.stateService.movieList; let i = index;">
+    <div class="movie_card" id="bright">
+        <div class="info_section">
+            <div class="movie_header">
+                <img class="locandina" src="{{ imgBaseUrl + movie.poster_path }}" />
+                <h1>{{ movie.title }}</h1>
+                <h4>{{ movie.vote_average }} / 10</h4>
+                <span class="date">{{movie.release_date}}</span>
+                <p class="type"><span *ngFor="let genre of movie.genre_ids">{{ idToGenreName(genre) }} </span></p>
+            </div>
+            <div class="movie_desc">
+                <p class="text">
+                    {{ movie.overview }}
+                </p>
+                <button class="btn-primary" (click)="moreInfo(movie.id);togglePanel[i] = !togglePanel[i]">More</button>
+                <div *ngIf="togglePanel[i]">
+                    <p *ngIf="youtubeKey"><a href="https://www.youtube.com/watch?v={{ youtubeKey }}"
+                            target="_blank">Watch Trailer</a></p>
+                <div> 
+                    <p *ngIf="reviewsList.length > 0" class="similar_movies">Reviews</p>
+                    <ul *ngFor="let review of reviewsList; let i = index;" class="similar_movies">
+                        <p *ngIf="i<2">Author: {{ review.author }}</p>
+                        <p *ngIf="i<2">{{ review.content }}</p>
+                    </ul>
+                </div>
+                    <p class="similar_movies">Similar Movies</p>
+                    <span class="similar_movies"
+                        *ngFor="let posterPath of similarMovies">{{ posterPath.original_title }}, </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
